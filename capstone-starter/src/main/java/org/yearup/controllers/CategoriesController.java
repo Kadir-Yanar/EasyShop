@@ -1,6 +1,7 @@
 package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.data.CategoryDao;
@@ -60,6 +61,8 @@ public class CategoriesController
     @PostMapping
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ADMIN')")
+    // Added response status
+    @ResponseStatus(HttpStatus.CREATED)
     public Category addCategory(@RequestBody Category category)
     {
         // insert the category
