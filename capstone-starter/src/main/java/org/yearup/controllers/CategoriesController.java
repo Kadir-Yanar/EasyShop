@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.CategoryDao;
 import org.yearup.data.ProductDao;
 import org.yearup.models.Category;
@@ -44,8 +45,13 @@ public class CategoriesController
     @GetMapping("{id}")
     public Category getById(@PathVariable int id)
     {
-        // get the category by id
-        return categoryDao.getById(id);
+
+        //Added null control
+        Category category = categoryDao.getById(id);
+        if (category == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return category;
     }
 
     // the url to return all products in category 1 would look like this
@@ -84,6 +90,7 @@ public class CategoriesController
     @DeleteMapping("{id}")
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id)
     {
         // delete the category by id
