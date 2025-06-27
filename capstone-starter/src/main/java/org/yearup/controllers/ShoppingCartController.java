@@ -65,7 +65,7 @@ public class ShoppingCartController
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
 
-            shoppingCartDao.addProductToCart(userId, productId);
+            shoppingCartDao.addProductToCart(userId,productId);
         }
         catch(Exception e)
         {
